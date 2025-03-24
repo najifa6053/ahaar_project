@@ -19,9 +19,19 @@ class _StartupViewState extends State<StartupView> {
 
   void goWelcomePage() async{
      await Future.delayed( const Duration(seconds: 3));
-     Navigator.push(context, MaterialPageRoute(builder: (context) => const WelcomeView()));
+    welcomePage();
+     
   }
   
+
+  void welcomePage() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const WelcomeView(),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -40,8 +50,8 @@ class _StartupViewState extends State<StartupView> {
           ),
           Image.asset(
             "assets/image/AHAAR.png",
-            width: media.width * 0.55,
-            height: media.width * 0.55,
+            width: media.width * 0.6,
+            height: media.width * 0.6,
             fit: BoxFit.contain,
           ),
         ],
