@@ -1,5 +1,6 @@
-import 'package:ahaar_project/common/color_extension.dart';
+//import 'package:ahaar_project/common/color_extension.dart';
 import 'package:ahaar_project/common_widget/round_button.dart';
+import 'package:ahaar_project/view/login/login_view.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeView extends StatefulWidget {
@@ -37,12 +38,17 @@ class _WelcomeViewState extends State<WelcomeView> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: RoundButton(title: "Login", onPressed: () {
+              Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: (context) => const LoginView(),
+                  ),
+                );
 
             },),
           ),
-          SizedBox(
-            height: 
-            media.height * 0.05
+          const SizedBox(
+            height: 20,
             ),
             Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),

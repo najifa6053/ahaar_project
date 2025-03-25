@@ -62,6 +62,8 @@ flutter:
      - assets/image/AHAAR.png
      - assets/image/splash_bg.png
      - assets/image/welcome_top_shape.png
+     - assets/image/facebook_logo.png
+     - assets/image/google_logo.png
     
   #   - images/a_dot_ham.jpeg
 
