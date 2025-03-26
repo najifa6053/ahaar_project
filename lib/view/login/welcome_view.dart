@@ -1,6 +1,7 @@
 //import 'package:ahaar_project/common/color_extension.dart';
 import 'package:ahaar_project/common_widget/round_button.dart';
 import 'package:ahaar_project/view/login/login_view.dart';
+import 'package:ahaar_project/view/login/sing_up_view.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeView extends StatefulWidget {
@@ -55,7 +56,12 @@ class _WelcomeViewState extends State<WelcomeView> {
             child: RoundButton(title: "Create An Account",
             type: RoundButtonType.textPrimary, 
             onPressed: () {
-
+              Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: (context) => const SingUpView(),
+                  ),
+                );
             },),
           ),
         ],

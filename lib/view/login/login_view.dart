@@ -2,6 +2,7 @@ import 'package:ahaar_project/common/color_extension.dart';
 import 'package:ahaar_project/common_widget/round_button.dart';
 import 'package:ahaar_project/common_widget/round_icon_button.dart';
 import 'package:ahaar_project/common_widget/round_textfiled.dart';
+import 'package:ahaar_project/view/login/reset_password_view.dart';
 import 'package:ahaar_project/view/login/sing_up_view.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -53,7 +54,7 @@ class _LoginViewState extends State<LoginView> {
                 controller: txtEmail,
                 keyboardType: TextInputType.emailAddress,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 25),
               RoundTextfiled(
                 hintText: "Password",
                 controller: txtPassword,
@@ -64,7 +65,15 @@ class _LoginViewState extends State<LoginView> {
               const SizedBox(height: 4),
 
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => 
+                      const ResetPasswordView()
+                      ),
+                  );
+                },
                 child: Text(
                   "Forgot Password?",
                   style: TextStyle(

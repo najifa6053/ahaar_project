@@ -1,8 +1,8 @@
 import 'package:ahaar_project/common/color_extension.dart';
 import 'package:ahaar_project/common_widget/round_button.dart';
-import 'package:ahaar_project/common_widget/round_icon_button.dart';
 import 'package:ahaar_project/common_widget/round_textfiled.dart';
 import 'package:ahaar_project/view/login/login_view.dart';
+import 'package:ahaar_project/view/login/otp_view.dart';
 import 'package:flutter/material.dart';
 
 class SingUpView extends StatefulWidget {
@@ -13,8 +13,12 @@ class SingUpView extends StatefulWidget {
 }
 
 class _SingUpViewState extends State<SingUpView> {
+  TextEditingController txtName = TextEditingController();
+  TextEditingController txtMobile = TextEditingController();
+  TextEditingController txtAddress = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
+  TextEditingController txtConfirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,33 +51,47 @@ class _SingUpViewState extends State<SingUpView> {
 
               const SizedBox(height: 25),
               RoundTextfiled(
-                hintText: "Your Email",
+                hintText: "Name",
+                controller: txtName,
+              ),
+              const SizedBox(height: 25),
+              RoundTextfiled(
+                hintText: "Email",
                 controller: txtEmail,
                 keyboardType: TextInputType.emailAddress,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 25),
+              RoundTextfiled(
+                hintText: "Mobile",
+                controller: txtMobile,
+                keyboardType: TextInputType.phone,
+              ),
+              const SizedBox(height: 25),
+              RoundTextfiled(
+                hintText: "Address",
+                controller: txtAddress,
+              ),
+              const SizedBox(height: 25),
               RoundTextfiled(
                 hintText: "Password",
                 controller: txtPassword,
                 obscureText: true,
               ),
               const SizedBox(height: 25),
-              RoundButton(title: "Login", onPressed: () {}),
-              const SizedBox(height: 4),
-
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                    color: TColor.secondaryText,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+              RoundTextfiled(
+                hintText: "Confiem Password",
+                controller: txtConfirmPassword,
+                obscureText: true,
               ),
-              const SizedBox(height: 30),
-              
+              const SizedBox(height: 25),
+              RoundButton(title: "Sing Up", onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OtpView()
+                  ),
+                );
+              }),
               
               const SizedBox(height: 30),
               TextButton(
