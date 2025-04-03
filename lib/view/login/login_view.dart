@@ -4,6 +4,7 @@ import 'package:ahaar_project/common_widget/round_icon_button.dart';
 import 'package:ahaar_project/common_widget/round_textfiled.dart';
 import 'package:ahaar_project/view/login/reset_password_view.dart';
 import 'package:ahaar_project/view/login/sing_up_view.dart';
+import 'package:ahaar_project/view/on_boarding/on_boarding_view.dart';
 import 'package:flutter/material.dart';
 
 // Ensure this path is correct
@@ -61,7 +62,14 @@ class _LoginViewState extends State<LoginView> {
                 obscureText: true,
               ),
               const SizedBox(height: 25),
-              RoundButton(title: "Login", onPressed: () {}),
+              RoundButton(title: "Login", onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: 
+                    (context) => const OnBoardingView()),
+                  );
+
+              }),
               const SizedBox(height: 4),
 
               TextButton(

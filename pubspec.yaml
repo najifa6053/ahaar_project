@@ -65,6 +65,16 @@ flutter:
      - assets/image/welcome_top_shape.png
      - assets/image/facebook_logo.png
      - assets/image/google_logo.png
+     - assets/image/on_boarding_1.png
+     - assets/image/on_boarding_2.png
+     - assets/image/on_boarding_3.png
+     - assets/image/tab_home.png
+     - assets/image/tab_menu.png
+     - assets/image/tab_offer.png
+     - assets/image/tab_profile.png
+     - assets/image/tab_more.png
+     
+
     
   #   - images/a_dot_ham.jpeg
 
