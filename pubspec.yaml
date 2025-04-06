@@ -73,6 +73,21 @@ flutter:
      - assets/image/tab_offer.png
      - assets/image/tab_profile.png
      - assets/image/tab_more.png
+     - assets/image/shopping_cart.png
+     - assets/image/dropdown.png
+     - assets/image/search.png
+     - assets/image/cat_offer.png
+     - assets/image/cat_sri.png
+     - assets/image/cat_sri.png
+     - assets/image/cat_4.png
+     - assets/image/res_1.png
+     - assets/image/res_2.png
+     - assets/image/res_3.png
+     - assets/image/m_res_1.png
+     - assets/image/m_res_2.png
+     - assets/image/item_1.png
+     - assets/image/item_2.png
+     - assets/image/item_3.png
      
 
     
