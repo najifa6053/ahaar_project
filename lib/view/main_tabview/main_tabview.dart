@@ -1,6 +1,7 @@
 import 'package:ahaar_project/common/color_extension.dart';
 import 'package:ahaar_project/common_widget/tab_button.dart';
 import 'package:ahaar_project/view/home/home_view.dart';
+import 'package:ahaar_project/view/menu/menu_view.dart';
 import 'package:flutter/material.dart';
 
 class MainTabview extends StatefulWidget {
@@ -65,7 +66,7 @@ class _MainTabviewState extends State<MainTabview> {
                 onTap: (){
                   if (selectTab != 0) {
                       selectTab = 0;
-                      selectedPageView = Container();
+                      selectedPageView = const MenuView();
                     
                   }
                   if(mounted){
