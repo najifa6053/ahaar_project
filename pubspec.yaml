@@ -78,7 +78,7 @@ flutter:
      - assets/image/search.png
      - assets/image/cat_offer.png
      - assets/image/cat_sri.png
-     - assets/image/cat_sri.png
+     - assets/image/cat_3.png
      - assets/image/cat_4.png
      - assets/image/res_1.png
      - assets/image/res_2.png
@@ -88,6 +88,7 @@ flutter:
      - assets/image/item_1.png
      - assets/image/item_2.png
      - assets/image/item_3.png
+     - assets/image/rate.png
      
 
     

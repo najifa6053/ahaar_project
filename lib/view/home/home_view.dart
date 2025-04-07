@@ -1,4 +1,8 @@
 import 'package:ahaar_project/common/color_extension.dart';
+import 'package:ahaar_project/common_widget/category_cell.dart';
+import 'package:ahaar_project/common_widget/most_popular_cell.dart';
+import 'package:ahaar_project/common_widget/popular_resutaurant_row.dart';
+import 'package:ahaar_project/common_widget/recent_item_row.dart';
 import 'package:ahaar_project/common_widget/round_textfiled.dart';
 import 'package:ahaar_project/common_widget/view_all_title_row.dart';
 import 'package:flutter/material.dart';
@@ -186,7 +190,6 @@ class _HomeViewState extends State<HomeView> {
               const SizedBox(height: 30),
 
               SizedBox(
-
                 height: 120,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -194,37 +197,10 @@ class _HomeViewState extends State<HomeView> {
                   itemCount: catArr.length,
                   itemBuilder: (context, index) {
                     var cObj = catArr[index] as Map? ?? {};
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              cObj["image"].toString(),
-                              width: 85,
-                              height: 85,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            cObj["name"],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: TColor.primaryText,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-
-                        ],
-                        ),
-                    );
+                    return CategoryCell(cObj: cObj, onTap: () {});
                   },
                 ),
               ),
-              
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -234,20 +210,49 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
 
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: popArr.length,
+                itemBuilder: (context, index) {
+                  var pObj = popArr[index] as Map? ?? {};
+                  return PopularResutaurantRow(
+                    pObj: pObj, onTap: () {});
+                },
+              ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ViewAllTitleRow(
-                  title: "Most Popular",
-                  onView: () {},
+                child: ViewAllTitleRow(title: "Most Popular", onView: () {}),
+              ),
+              SizedBox(
+                height: 200,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  itemCount: mostPopArr.length,
+                  itemBuilder: (context, index) {
+                    var mObj = mostPopArr[index] as Map? ?? {};
+                    return MostPopularCell(mObj: mObj, onTap: () {});
+                  },
                 ),
               ),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ViewAllTitleRow(
-                  title: "Recent Items",
-                  onView: () {},
-                ),
+                child: ViewAllTitleRow(title: "Recent Items", onView: () {}),
+              ),
+
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                itemCount: recentArr.length,
+                itemBuilder: (context, index) {
+                  var rObj = recentArr[index] as Map? ?? {};
+                  return RecentItemRow(rObj: rObj, onTap: () {});
+                },
               ),
             ],
           ),

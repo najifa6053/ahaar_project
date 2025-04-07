@@ -1,4 +1,5 @@
-import 'package:ahaar_project/view/on_boarding/startup_view.dart';
+import 'package:ahaar_project/view/main_tabview/main_tabview.dart';
+//import 'package:ahaar_project/view/on_boarding/startup_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const StartupView(),
+      home: const MainTabview(),
     );
   }
 }
