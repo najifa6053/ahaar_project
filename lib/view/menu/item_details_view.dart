@@ -10,10 +10,17 @@ class ItemDetailsView extends StatefulWidget {
 }
 
 class _ItemDetailsViewState extends State<ItemDetailsView> {
+
+  double price = 15;
+  int qty = 1;
+
+
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: TColor.white,
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -69,8 +76,10 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   IgnorePointer(
                                     ignoring: true,
@@ -94,11 +103,326 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                                       },
                                     ),
                                   ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    "4 Star Rating",
+                                    style: TextStyle(
+                                      color: TColor.primary,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "\$${price.toStringAsFixed(2)}",
+                                    style: TextStyle(
+                                      color: TColor.primaryText,
+                                      fontSize: 31,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "/per plate",
+                                    style: TextStyle(
+                                      color: TColor.primaryText,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
                           ),
                         ),
+
+                        const SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Text(
+                            "Description",
+                            style: TextStyle(
+                              color: TColor.primaryText,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+
+                        const SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Text(
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                            style: TextStyle(
+                              color: TColor.secondaryText,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Divider(
+                            color: TColor.secondaryText.withOpacity(0.2),
+                            height: 1,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Text(
+                            "Customize Your Order",
+                            style: TextStyle(
+                              color: TColor.primaryText,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                              color: TColor.textfield,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                isExpanded: true,
+                                items:
+                                    ["small", "Big"].map((e) {
+                                      return DropdownMenuItem(
+                                        value: e,
+                                        child: Text(
+                                          e,
+                                          style: TextStyle(
+                                            color: TColor.primaryText,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                onChanged: (val) {},
+                                hint: Text(
+                                  "-Select the ingredients-",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: TColor.secondaryText,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Number of Portions",
+                                style: TextStyle(
+                                  color: TColor.primaryText,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const Spacer(),
+                              InkWell(
+                                onTap: () {
+
+                                  qty = qty - 1;
+                                  if (qty < 1) {
+                                    qty = 1;
+                                  }
+
+                                  setState(() {
+                                    
+                                  });
+
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                  ),
+                                  height: 25,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: TColor.primary,
+                                    borderRadius: BorderRadius.circular(12.5),
+                                  ),
+                                  child: Text(
+                                    "-",
+                                    style: TextStyle(
+                                      color: TColor.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                ),
+                                height: 25,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: TColor.primary,
+                                  ),
+                                
+                                  borderRadius: BorderRadius.circular(12.5),
+                                ),
+                                child: Text(
+                                  qty.toString(),
+                                  style: TextStyle(
+                                    color: TColor.primary,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            
+                              const SizedBox(width: 8),
+                            InkWell(
+                                onTap: () {
+                                  qty = qty + 1;
+                                  
+
+                                  setState(() {
+                                    
+                                  });
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                  ),
+                                  height: 25,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: TColor.primary,
+                                    borderRadius: BorderRadius.circular(12.5),
+                                  ),
+                                  child: Text(
+                                    "+",
+                                    style: TextStyle(
+                                      color: TColor.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        Stack(
+                          alignment: Alignment.centerRight,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(
+                                top: 8,
+                                bottom: 8,
+                                right: 20,
+                              ),
+                              width: media.width - 100,
+                              height: 90,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(25),
+                                  bottomLeft: Radius.circular(25),
+                                  topRight: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Total Price",
+                                        style: TextStyle(
+                                          color: TColor.primaryText,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        "\$30",
+                                        style: TextStyle(
+                                          color: TColor.primaryText,
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      
+                                    ],
+                                  ),
+                                ),
+
+                                Container(
+                                  width: 35,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(17.5),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black12,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                    "assets/image/btn_next.png",
+                                    width: 15,
+                                    height: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
