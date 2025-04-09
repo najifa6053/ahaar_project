@@ -22,7 +22,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
+    // Removed unused variable 'media'
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(

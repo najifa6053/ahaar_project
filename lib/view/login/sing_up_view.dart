@@ -22,7 +22,7 @@ class _SingUpViewState extends State<SingUpView> {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
+    // var media = MediaQuery.of(context).size; // Removed unused variable
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
