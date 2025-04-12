@@ -5,6 +5,7 @@ import 'package:ahaar_project/view/login/login_view.dart';
 import 'package:ahaar_project/view/login/otp_view.dart';
 import 'package:flutter/material.dart';
 
+
 class SingUpView extends StatefulWidget {
   const SingUpView({super.key});
 

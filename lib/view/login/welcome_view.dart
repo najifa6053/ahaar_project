@@ -16,11 +16,12 @@ class _WelcomeViewState extends State<WelcomeView> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
                 Image.asset(
                   "assets/image/welcome_top_shape.png",
                   width: media.width,
@@ -32,39 +33,40 @@ class _WelcomeViewState extends State<WelcomeView> {
                   fit: BoxFit.contain,
                 ),
               ],
-          ),
-
-          SizedBox(height: media.height * 0.05),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: RoundButton(title: "Login", onPressed: () {
-              Navigator.push(
-                context, 
-                MaterialPageRoute(
-                  builder: (context) => const LoginView(),
-                  ),
-                );
-
-            },),
-          ),
-          const SizedBox(
-            height: 20,
             ),
+        
+            SizedBox(height: media.height * 0.05),
+        
             Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: RoundButton(title: "Create An Account",
-            type: RoundButtonType.textPrimary, 
-            onPressed: () {
-              Navigator.push(
-                context, 
-                MaterialPageRoute(
-                  builder: (context) => const SingUpView(),
-                  ),
-                );
-            },),
-          ),
-        ],
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: RoundButton(
+                title: "Login",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginView()),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: RoundButton(
+                title: "Create An Account",
+                type: RoundButtonType.textPrimary,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SingUpView()
+                    ),
+                  );
+                },
+              ),
+              
+            ),
+          ],
+        ),
       ),
     );
   }
