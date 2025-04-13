@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ahaar_project/common/color_extension.dart';
 import 'package:ahaar_project/common_widget/round_button.dart';
 import 'package:ahaar_project/view/main_tabview/main_tabview.dart';
-import 'package:flutter/material.dart';
+import 'package:ahaar_project/view/login/welcome_view.dart';
 
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
@@ -11,38 +13,51 @@ class OnBoardingView extends StatefulWidget {
 }
 
 class _OnBoardingViewState extends State<OnBoardingView> {
-  int seldtedPage = 0;
+  int selectPage = 0;
   PageController controller = PageController();
 
-  List pageArray = [
+  List pageArr = [
     {
-      "title": "Welcome to AHAAR",
+      "title": "Find Food You Love",
       "subtitle":
           "Discover the best foods from over 1,000\nrestaurants and fast delivery to your\ndoorstep",
-      "image": "assets/image/on_boarding_1.png",
+      "image": "assets/img/on_boarding_1.png",
     },
     {
-      "title": "Fast Deliverys",
-      "subtitle": "Get your food delivered at your doorstep in no time.",
-      "image": "assets/image/on_boarding_2.png",
+      "title": "Fast Delivery",
+      "subtitle": "Fast food delivery to your home, office\nwherever you are",
+      "image": "assets/img/on_boarding_2.png",
     },
     {
       "title": "Live Tracking",
       "subtitle":
           "Real time tracking of your food on the app\nonce you placed the order",
-      "image": "assets/image/on_boarding_3.png",
+      "image": "assets/img/on_boarding_3.png",
     },
   ];
 
   @override
   void initState() {
     super.initState();
+    checkUserAuthentication();
 
     controller.addListener(() {
       setState(() {
-        seldtedPage = controller.page?.round() ?? 0;
+        selectPage = controller.page?.round() ?? 0;
       });
     });
+  }
+
+  // Check Firebase Authentication state
+  void checkUserAuthentication() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // User is logged in, navigate to MainTabView
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainTabView()),
+      );
+    }
   }
 
   @override
@@ -55,9 +70,9 @@ class _OnBoardingViewState extends State<OnBoardingView> {
         children: [
           PageView.builder(
             controller: controller,
-            itemCount: pageArray.length,
-            itemBuilder: (context, index) {
-              var pObj = pageArray[index] as Map? ?? {};
+            itemCount: pageArr.length,
+            itemBuilder: ((context, index) {
+              var pObj = pageArr[index] as Map? ?? {};
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -72,7 +87,9 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  SizedBox(height: media.width * 0.2),
+                  SizedBox(
+                    height: media.width * 0.2,
+                  ),
                   Text(
                     pObj["title"].toString(),
                     style: TextStyle(
@@ -81,7 +98,9 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  SizedBox(height: media.width * 0.05),
+                  SizedBox(
+                    height: media.width * 0.05,
+                  ),
                   Text(
                     pObj["subtitle"].toString(),
                     textAlign: TextAlign.center,
@@ -91,54 +110,59 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: media.width * 0.3),
+                  SizedBox(
+                    height: media.width * 0.20,
+                  ),
                 ],
               );
-            },
+            }),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: media.height * 0.6),
+              SizedBox(
+                height: media.height * 0.6,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:
-                    pageArray.map((e) {
-                      var index = pageArray.indexOf(e);
-                      return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        height: 6,
-                        width: 6,
-                        decoration: BoxDecoration(
-                          color:
-                              index == seldtedPage
-                                  ? TColor.primary
-                                  : TColor.placeholder,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      );
-                    }).toList(),
-              ),
-              SizedBox(height: media.height * 0.2),
+                children: pageArr.map((e) {
+                  var index = pageArr.indexOf(e);
 
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    height: 6,
+                    width: 6,
+                    decoration: BoxDecoration(
+                      color: index == selectPage
+                          ? TColor.primary
+                          : TColor.placeholder,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  );
+                }).toList(),
+              ),
+              SizedBox(
+                height: media.height * 0.28,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: RoundButton(
                   title: "Next",
                   onPressed: () {
-                    if (seldtedPage >= 2) {
-                      Navigator.push(
-                        context, 
+                    if (selectPage >= 2) {
+                      // Navigate to WelcomeView if onboarding is complete
+                      Navigator.pushReplacement(
+                        context,
                         MaterialPageRoute(
-                          builder: (context)
-                          => const MainTabview(),
+                          builder: (context) => const WelcomeView(),
                         ),
-                        );
+                      );
                     } else {
+                      // Navigate to the next onboarding screen
                       setState(() {
-                        seldtedPage = seldtedPage + 1;
+                        selectPage = selectPage + 1;
                         controller.animateToPage(
-                          seldtedPage,
+                          selectPage,
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.bounceInOut,
                         );
@@ -147,9 +171,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   },
                 ),
               ),
-              SizedBox(height: media.width * 0.2),
             ],
-          ),
+          )
         ],
       ),
     );

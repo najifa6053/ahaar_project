@@ -1,11 +1,14 @@
-import 'package:ahaar_project/common/color_extension.dart';
-import 'package:ahaar_project/common_widget/category_cell.dart';
 import 'package:ahaar_project/common_widget/most_popular_cell.dart';
-import 'package:ahaar_project/common_widget/popular_resutaurant_row.dart';
-import 'package:ahaar_project/common_widget/recent_item_row.dart';
-import 'package:ahaar_project/common_widget/round_textfiled.dart';
-import 'package:ahaar_project/common_widget/view_all_title_row.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
+import 'package:ahaar_project/common/color_extension.dart';
+import 'package:ahaar_project/common_widget/round_textfiled.dart';
+import '../../common_widget/category_cell.dart';
+import 'package:ahaar_project/common_widget/popular_resutaurant_row.dart';
+import '../../common_widget/recent_item_row.dart';
+import '../../common_widget/view_all_title_row.dart';
+import '../more/my_order_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,87 +18,47 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  TextEditingController txrSearch = TextEditingController();
+  TextEditingController txtSearch = TextEditingController();
 
-  List catArr = [
-    {"image": "assets/image/cat_offer.png", "name": "Offers"},
-    {"image": "assets/image/cat_sri.png", "name": "Sri Lankan"},
-    {"image": "assets/image/cat_3.png", "name": "Italian"},
-    {"image": "assets/image/cat_4.png", "name": "Indian"},
-  ];
+  // Firebase Firestore instance
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  List popArr = [
-    {
-      "image": "assets/image/res_1.png",
-      "name": "Mingalar Restaurant",
-      "rate": "4.5",
-      "rating": "100+",
-      "type": "Chinese",
-      "food_type": "Chinese",
-    },
-    {
-      "image": "assets/image/res_2.png",
-      "name": "Cafe De Flore",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Cafe",
-      "food_type": "Western Food",
-    },
-    {
-      "image": "assets/image/res_3.png",
-      "name": "Burger King",
-      "rate": "4.8",
-      "rating": "155",
-      "type": "Restaurant",
-      "food_type": "Fast Food",
-    },
-  ];
+  // Data lists
+  List<Map<String, dynamic>> catArr = [];
+  List<Map<String, dynamic>> popArr = [];
+  List<Map<String, dynamic>> mostPopArr = [];
+  List<Map<String, dynamic>> recentArr = [];
 
-  List mostPopArr = [
-    {
-      "image": "assets/image/m_res_1.png",
-      "name": "Mingalar Restaurant",
-      "rate": "4.5",
-      "rating": "100+",
-      "type": "Chinese",
-      "food_type": "Chinese",
-    },
-    {
-      "image": "assets/image/m_res_2.png",
-      "name": "Cafe De Flore",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Cafe",
-      "food_type": "Western Food",
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
-  List recentArr = [
-    {
-      "image": "assets/image/item_1.png",
-      "name": "Mingalar Restaurant",
-      "rate": "4.5",
-      "rating": "100+",
-      "type": "Chinese",
-      "food_type": "Chinese",
-    },
-    {
-      "image": "assets/image/item_2.png",
-      "name": "Cafe De Flore",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Cafe",
-      "food_type": "Western Food",
-    },
-    {
-      "image": "assets/image/item_3.png",
-      "name": "Burger King",
-      "rate": "4.8",
-      "rating": "155",
-      "type": "Restaurant",
-      "food_type": "Fast Food",
-    },
-  ];
+  // Fetch data from Firestore
+  Future<void> fetchData() async {
+    try {
+      // Fetch categories
+      final categoriesSnapshot = await _firestore.collection('categories').get();
+      catArr = categoriesSnapshot.docs.map((doc) => doc.data()).toList();
+
+      // Fetch popular restaurants
+      final popularSnapshot = await _firestore.collection('popular_restaurants').get();
+      popArr = popularSnapshot.docs.map((doc) => doc.data()).toList();
+
+      // Fetch most popular items
+      final mostPopularSnapshot = await _firestore.collection('most_popular').get();
+      mostPopArr = mostPopularSnapshot.docs.map((doc) => doc.data()).toList();
+
+      // Fetch recent items
+      final recentSnapshot = await _firestore.collection('recent_items').get();
+      recentArr = recentSnapshot.docs.map((doc) => doc.data()).toList();
+
+      setState(() {});
+    } catch (e) {
+      print("Error fetching data: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,14 +69,13 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             children: [
               const SizedBox(height: 46),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Good Morning User!",
+                      "Good morning ${FirebaseAuth.instance.currentUser?.displayName ?? "User"}!",
                       style: TextStyle(
                         color: TColor.primaryText,
                         fontSize: 20,
@@ -121,11 +83,18 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MyOrderView(),
+                          ),
+                        );
+                      },
                       icon: Image.asset(
-                        "assets/image/shopping_cart.png",
-                        width: 20,
-                        height: 20,
+                        "assets/img/shopping_cart.png",
+                        width: 25,
+                        height: 25,
                       ),
                     ),
                   ],
@@ -139,13 +108,9 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Text(
                       "Delivering to",
-                      style: TextStyle(
-                        color: TColor.secondaryText,
-                        fontSize: 11,
-                      ),
+                      style: TextStyle(color: TColor.secondaryText, fontSize: 11),
                     ),
                     const SizedBox(height: 6),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -157,11 +122,9 @@ class _HomeViewState extends State<HomeView> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-
                         const SizedBox(width: 25),
-
                         Image.asset(
-                          "assets/image/dropdown.png",
+                          "assets/img/dropdown.png",
                           width: 12,
                           height: 12,
                         ),
@@ -173,14 +136,14 @@ class _HomeViewState extends State<HomeView> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: RoundTextfiled(
+                child: RoundTextfield(
                   hintText: "Search Food",
-                  controller: txrSearch,
+                  controller: txtSearch,
                   left: Container(
                     alignment: Alignment.center,
                     width: 30,
                     child: Image.asset(
-                      "assets/image/search.png",
+                      "assets/img/search.png",
                       width: 20,
                       height: 20,
                     ),
@@ -188,7 +151,6 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
               const SizedBox(height: 30),
-
               SizedBox(
                 height: 120,
                 child: ListView.builder(
@@ -196,12 +158,14 @@ class _HomeViewState extends State<HomeView> {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   itemCount: catArr.length,
                   itemBuilder: (context, index) {
-                    var cObj = catArr[index] as Map? ?? {};
-                    return CategoryCell(cObj: cObj, onTap: () {});
+                    var cObj = catArr[index];
+                    return CategoryCell(
+                      cObj: cObj,
+                      onTap: () {},
+                    );
                   },
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ViewAllTitleRow(
@@ -209,22 +173,25 @@ class _HomeViewState extends State<HomeView> {
                   onView: () {},
                 ),
               ),
-
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: popArr.length,
                 itemBuilder: (context, index) {
-                  var pObj = popArr[index] as Map? ?? {};
-                  return PopularResutaurantRow(
-                    pObj: pObj, onTap: () {});
+                  var pObj = popArr[index];
+                  return PopularRestaurantRow(
+                    pObj: pObj,
+                    onTap: () {},
+                  );
                 },
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ViewAllTitleRow(title: "Most Popular", onView: () {}),
+                child: ViewAllTitleRow(
+                  title: "Most Popular",
+                  onView: () {},
+                ),
               ),
               SizedBox(
                 height: 200,
@@ -233,25 +200,32 @@ class _HomeViewState extends State<HomeView> {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   itemCount: mostPopArr.length,
                   itemBuilder: (context, index) {
-                    var mObj = mostPopArr[index] as Map? ?? {};
-                    return MostPopularCell(mObj: mObj, onTap: () {});
+                    var mObj = mostPopArr[index];
+                    return MostPopularCell(
+                      mObj: mObj,
+                      onTap: () {},
+                    );
                   },
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ViewAllTitleRow(title: "Recent Items", onView: () {}),
+                child: ViewAllTitleRow(
+                  title: "Recent Items",
+                  onView: () {},
+                ),
               ),
-
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 itemCount: recentArr.length,
                 itemBuilder: (context, index) {
-                  var rObj = recentArr[index] as Map? ?? {};
-                  return RecentItemRow(rObj: rObj, onTap: () {});
+                  var rObj = recentArr[index];
+                  return RecentItemRow(
+                    rObj: rObj,
+                    onTap: () {},
+                  );
                 },
               ),
             ],

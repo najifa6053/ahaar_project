@@ -1,29 +1,29 @@
-import 'package:ahaar_project/common/color_extension.dart';
-import 'package:ahaar_project/common_widget/round_button.dart';
-import 'package:ahaar_project/common_widget/round_textfiled.dart';
-import 'package:ahaar_project/view/login/login_view.dart';
-import 'package:ahaar_project/view/login/otp_view.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ahaar_project/view/login/otp_view.dart';
+import 'package:ahaar_project/view/login/login_view.dart';
 
+import '../../common/color_extension.dart';
+import '../../common_widget/round_button.dart';
+import '../../common_widget/round_textfiled.dart';
 
-class SingUpView extends StatefulWidget {
-  const SingUpView({super.key});
+class SignUpView extends StatefulWidget {
+  const SignUpView({super.key});
 
   @override
-  State<SingUpView> createState() => _SingUpViewState();
+  State<SignUpView> createState() => _SignUpViewState();
 }
 
-class _SingUpViewState extends State<SingUpView> {
+class _SignUpViewState extends State<SignUpView> {
   TextEditingController txtName = TextEditingController();
-  TextEditingController txtMobile = TextEditingController();
-  TextEditingController txtAddress = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtConfirmPassword = TextEditingController();
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    // var media = MediaQuery.of(context).size; // Removed unused variable
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -33,71 +33,57 @@ class _SingUpViewState extends State<SingUpView> {
             children: [
               const SizedBox(height: 64),
               Text(
-                "Sing Up",
+                "Sign Up",
                 style: TextStyle(
                   color: TColor.primaryText,
                   fontSize: 30,
                   fontWeight: FontWeight.w800,
                 ),
               ),
-
               Text(
-                "Add your details to Sing Up",
+                "Add your details to Sign Up",
                 style: TextStyle(
                   color: TColor.secondaryText,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-
               const SizedBox(height: 25),
-              RoundTextfiled(
+              RoundTextfield(
                 hintText: "Name",
                 controller: txtName,
               ),
               const SizedBox(height: 25),
-              RoundTextfiled(
+              RoundTextfield(
                 hintText: "Email",
                 controller: txtEmail,
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 25),
-              RoundTextfiled(
-                hintText: "Mobile",
-                controller: txtMobile,
-                keyboardType: TextInputType.phone,
-              ),
-              const SizedBox(height: 25),
-              RoundTextfiled(
-                hintText: "Address",
-                controller: txtAddress,
-              ),
-              const SizedBox(height: 25),
-              RoundTextfiled(
+              RoundTextfield(
                 hintText: "Password",
                 controller: txtPassword,
                 obscureText: true,
               ),
               const SizedBox(height: 25),
-              RoundTextfiled(
-                hintText: "Confiem Password",
+              RoundTextfield(
+                hintText: "Confirm Password",
                 controller: txtConfirmPassword,
                 obscureText: true,
               ),
               const SizedBox(height: 25),
-              RoundButton(title: "Sing Up", onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const OtpView()
-                  ),
-                );
-              }),
-              
+              isLoading
+                  ? const CircularProgressIndicator()
+                  : RoundButton(
+                      title: "Sign Up",
+                      onPressed: () {
+                        btnSignUp();
+                      },
+                    ),
               const SizedBox(height: 30),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const LoginView()),
                   );
@@ -129,5 +115,47 @@ class _SingUpViewState extends State<SingUpView> {
         ),
       ),
     );
+  }
+
+  void btnSignUp() async {
+    if (txtName.text.isEmpty ||
+        txtEmail.text.isEmpty ||
+        txtPassword.text.isEmpty ||
+        txtConfirmPassword.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill in all fields.")),
+      );
+      return;
+    }
+
+    if (txtPassword.text != txtConfirmPassword.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match.")),
+      );
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: txtEmail.text.trim(),
+        password: txtPassword.text.trim(),
+      );
+
+      // Navigate to OTPView after successful sign-up
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OtpView(email: txtEmail.text.trim()),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? "Sign-up failed.")),
+      );
+    } finally {
+      setState(() => isLoading = false);
+    }
   }
 }

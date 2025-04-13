@@ -2,10 +2,14 @@ import 'package:ahaar_project/common/color_extension.dart';
 import 'package:flutter/material.dart';
 
 class ViewAllTitleRow extends StatelessWidget {
-  final String title;
-  final VoidCallback onView;
-  const ViewAllTitleRow({super.key, required this.title, required this.onView});  
+  final String title; // Title of the row
+  final VoidCallback onView; // Callback for "View All" button
 
+  const ViewAllTitleRow({
+    super.key,
+    required this.title,
+    required this.onView,
+  });
 
   @override
   Widget build(BuildContext context) {

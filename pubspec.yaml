@@ -37,6 +37,15 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   firebase_core: ^3.13.0
   firebase_auth: ^5.5.2
+  shared_preferences: ^2.1.0
+  flutter_easyloading: ^3.0.5
+  image_picker: ^0.8.7+4
+  cloud_firestore: 5.6.6
+  google_maps_flutter: ^2.2.0
+  custom_map_markers: 0.0.2+1
+  get_it: ^7.6.0
+  flutter_timezone: ^2.0.0
+  otp_pin_field: ^1.0.0 # Replace with the latest version
 
 dev_dependencies:
   flutter_test:
@@ -63,46 +72,66 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/image/AHAAR.png
-     - assets/image/splash_bg.png
-     - assets/image/welcome_top_shape.png
-     - assets/image/facebook_logo.png
-     - assets/image/google_logo.png
-     - assets/image/on_boarding_1.png
-     - assets/image/on_boarding_2.png
-     - assets/image/on_boarding_3.png
-     - assets/image/tab_home.png
-     - assets/image/tab_menu.png
-     - assets/image/tab_offer.png
-     - assets/image/tab_profile.png
-     - assets/image/tab_more.png
-     - assets/image/shopping_cart.png
-     - assets/image/dropdown.png
-     - assets/image/search.png
-     - assets/image/cat_offer.png
-     - assets/image/cat_sri.png
-     - assets/image/cat_3.png
-     - assets/image/cat_4.png
-     - assets/image/res_1.png
-     - assets/image/res_2.png
-     - assets/image/res_3.png
-     - assets/image/m_res_1.png
-     - assets/image/m_res_2.png
-     - assets/image/item_1.png
-     - assets/image/item_2.png
-     - assets/image/item_3.png
-     - assets/image/rate.png
-     - assets/image/menu_1.png
-     - assets/image/menu_2.png
-     - assets/image/menu_3.png
-     - assets/image/menu_4.png
-     - assets/image/btn_next.png
-     - assets/image/btn_back.png
-     - assets/image/dess_1.png
-     - assets/image/dess_2.png
-     - assets/image/dess_3.png
-     - assets/image/dess_4.png
-     - assets/image/detail_top.png
+     - assets/img/AHAAR.png
+     - assets/img/splash_bg.png
+     - assets/img/welcome_top_shape.png
+     - assets/img/facebook_logo.png
+     - assets/img/google_logo.png
+     - assets/img/on_boarding_1.png
+     - assets/img/on_boarding_2.png
+     - assets/img/on_boarding_3.png
+     - assets/img/tab_home.png
+     - assets/img/tab_menu.png
+     - assets/img/tab_offer.png
+     - assets/img/tab_profile.png
+     - assets/img/tab_more.png
+     - assets/img/shopping_cart.png
+     - assets/img/dropdown.png
+     - assets/img/search.png
+     - assets/img/cat_offer.png
+     - assets/img/cat_sri.png
+     - assets/img/cat_3.png
+     - assets/img/cat_4.png
+     - assets/img/res_1.png
+     - assets/img/res_2.png
+     - assets/img/res_3.png
+     - assets/img/m_res_1.png
+     - assets/img/m_res_2.png
+     - assets/img/item_1.png
+     - assets/img/item_2.png
+     - assets/img/item_3.png
+     - assets/img/rate.png
+     - assets/img/menu_1.png
+     - assets/img/menu_2.png
+     - assets/img/menu_3.png
+     - assets/img/menu_4.png
+     - assets/img/btn_next.png
+     - assets/img/btn_back.png
+     - assets/img/dess_1.png
+     - assets/img/dess_2.png
+     - assets/img/dess_3.png
+     - assets/img/dess_4.png
+     - assets/img/detail_top.png
+     - assets/img/add.png
+     - assets/img/map_pin.png
+     - assets/img/fav_icon.png
+     - assets/img/thank_you.png
+     - assets/img/cash.png
+     - assets/img/visa_icon.png
+     - assets/img/BKash.png
+     - assets/img/more_payment.png
+     - assets/img/more_my_order.png
+     - assets/img/more_notification.png
+     - assets/img/more_inbox.png
+     - assets/img/more_info.png
+     - assets/img/more_info.png
+     - assets/img/shop_logo.png
+     - assets/img/rate.png
+     - assets/img/location-pin.png
+     - assets/img/check.png
+     - assets/img/visa_icon.png
+     - assets/img/add.png
+
      
 
     

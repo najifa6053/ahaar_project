@@ -1,12 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ahaar_project/common/color_extension.dart';
 import 'package:ahaar_project/common_widget/round_button.dart';
 import 'package:ahaar_project/common_widget/round_textfiled.dart';
-import 'package:flutter/material.dart';
-
-// Ensure this path is correct
+import 'package:ahaar_project/view/login/login_view.dart';
 
 class NewPasswordView extends StatefulWidget {
-  const NewPasswordView({super.key});
+  final Map nObj; // Pass user data dynamically
+  const NewPasswordView({super.key, required this.nObj});
 
   @override
   State<NewPasswordView> createState() => _NewPasswordViewState();
@@ -15,6 +16,7 @@ class NewPasswordView extends StatefulWidget {
 class _NewPasswordViewState extends State<NewPasswordView> {
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtConfirmPassword = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,7 @@ class _NewPasswordViewState extends State<NewPasswordView> {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-
               const SizedBox(height: 15),
-
               Text(
                 "Please enter your new password",
                 style: TextStyle(
@@ -45,25 +45,79 @@ class _NewPasswordViewState extends State<NewPasswordView> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-
               const SizedBox(height: 60),
-              RoundTextfiled(
+              RoundTextfield(
                 hintText: "New Password",
                 controller: txtPassword,
+                obscureText: true,
               ),
               const SizedBox(height: 25),
-              RoundTextfiled(
+              RoundTextfield(
                 hintText: "Confirm Password",
                 controller: txtConfirmPassword,
+                obscureText: true,
               ),
-              const SizedBox(height: 25),
-              
-              RoundButton(title: "Next", onPressed: () {}),
-              
+              const SizedBox(height: 30),
+              isLoading
+                  ? const CircularProgressIndicator()
+                  : RoundButton(
+                      title: "Next",
+                      onPressed: () {
+                        btnSubmit();
+                      },
+                    ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  // Submit new password
+  void btnSubmit() async {
+    if (txtPassword.text.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Password must be at least 6 characters long.")),
+      );
+      return;
+    }
+
+    if (txtPassword.text != txtConfirmPassword.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match.")),
+      );
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      // Update the password using Firebase
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        await user.updatePassword(txtPassword.text.trim());
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Password updated successfully.")),
+        );
+
+        // Navigate to LoginView after successful password update
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginView()),
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed to update password. Please log in again.")),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? "Failed to update password.")),
+      );
+    } finally {
+      setState(() => isLoading = false);
+    }
   }
 }

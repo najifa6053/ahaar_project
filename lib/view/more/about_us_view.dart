@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ahaar_project/common/color_extension.dart';
-import 'package:ahaar_project/common_widget/round_textfiled.dart';
-import 'package:ahaar_project/common_widget/menu_item_row.dart';
-import '../more/my_order_view.dart';
-import 'item_details_view.dart';
+import 'my_order_view.dart';
 
-class MenuItemsView extends StatefulWidget {
-  final Map mObj;
-  const MenuItemsView({super.key, required this.mObj});
+class AboutUsView extends StatefulWidget {
+  const AboutUsView({super.key});
 
   @override
-  State<MenuItemsView> createState() => _MenuItemsViewState();
+  State<AboutUsView> createState() => _AboutUsViewState();
 }
 
-class _MenuItemsViewState extends State<MenuItemsView> {
-  TextEditingController txtSearch = TextEditingController();
-  List<Map<String, dynamic>> menuItemsArr = [];
+class _AboutUsViewState extends State<AboutUsView> {
+  List<String> aboutTextArr = [];
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    fetchMenuItems();
+    fetchAboutUsContent();
   }
 
-  // Fetch menu items from Firebase Firestore
-  Future<void> fetchMenuItems() async {
+  // Fetch "About Us" content from Firebase Firestore
+  Future<void> fetchAboutUsContent() async {
     try {
-      final snapshot = await FirebaseFirestore.instance.collection('menu_items').get();
+      final snapshot = await FirebaseFirestore.instance.collection('about_us').get();
       setState(() {
-        menuItemsArr = snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+        aboutTextArr = snapshot.docs.map((doc) => doc['content'] as String).toList();
         isLoading = false;
       });
     } catch (e) {
@@ -38,7 +33,7 @@ class _MenuItemsViewState extends State<MenuItemsView> {
         isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to fetch menu items: $e")),
+        SnackBar(content: Text("Failed to fetch About Us content: $e")),
       );
     }
   }
@@ -50,10 +45,11 @@ class _MenuItemsViewState extends State<MenuItemsView> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 46),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   children: [
                     IconButton(
@@ -69,7 +65,7 @@ class _MenuItemsViewState extends State<MenuItemsView> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        widget.mObj["name"].toString(),
+                        "About Us",
                         style: TextStyle(
                           color: TColor.primaryText,
                           fontSize: 20,
@@ -81,7 +77,9 @@ class _MenuItemsViewState extends State<MenuItemsView> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const MyOrderView()),
+                          MaterialPageRoute(
+                            builder: (context) => const MyOrderView(),
+                          ),
                         );
                       },
                       icon: Image.asset(
@@ -93,43 +91,44 @@ class _MenuItemsViewState extends State<MenuItemsView> {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: RoundTextfield(
-                  hintText: "Search Food",
-                  controller: txtSearch,
-                  left: Container(
-                    alignment: Alignment.center,
-                    width: 30,
-                    child: Image.asset(
-                      "assets/img/search.png",
-                      width: 20,
-                      height: 20,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
               isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
-                      itemCount: menuItemsArr.length,
+                      itemCount: aboutTextArr.length,
                       itemBuilder: (context, index) {
-                        var mObj = menuItemsArr[index];
-                        return MenuItemRow(
-                          mObj: mObj,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ItemDetailsView(),
+                        var txt = aboutTextArr[index];
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 25,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(top: 4),
+                                width: 6,
+                                height: 6,
+                                decoration: BoxDecoration(
+                                  color: TColor.primary,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
                               ),
-                            );
-                          },
+                              const SizedBox(width: 15),
+                              Expanded(
+                                child: Text(
+                                  txt,
+                                  style: TextStyle(
+                                    color: TColor.primaryText,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
